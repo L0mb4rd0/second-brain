@@ -1,0 +1,339 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #030406;
+  color: #e8ecf1;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  user-select: none;
+}
+
+#canvas-container {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+#labels-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Etiquetas 3D proyectadas */
+.cluster-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.cluster-label:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.cluster-label .title {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.2px;
+}
+
+.cluster-label .count {
+  display: block;
+  font-size: 11px;
+  color: #8a94a6;
+  margin-top: 2px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+.center-home-tag {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 4px 12px;
+  font-size: 11px;
+  color: #d6dce5;
+  background: rgba(12, 14, 18, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* HUD Superior */
+.hud-top-left {
+  position: fixed;
+  top: 22px;
+  left: 26px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.hud-top-left h1 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #f3f5f8;
+  letter-spacing: 0.3px;
+}
+
+.hud-top-left p {
+  font-size: 12px;
+  color: #7c8594;
+  margin-top: 3px;
+}
+
+.hud-top-left .dot {
+  margin: 0 4px;
+}
+
+.pill-btn {
+  position: fixed;
+  top: 20px;
+  z-index: 10;
+  padding: 8px 18px;
+  font-size: 13px;
+  color: #d8dee8;
+  background: rgba(16, 18, 22, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.pill-btn:hover {
+  background: rgba(34, 38, 46, 0.85);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+}
+
+.hud-top-center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hud-top-right {
+  right: 24px;
+}
+
+/* Flechas laterales */
+.hud-right-nav {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.circle-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(20, 22, 26, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cfd6e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.circle-btn:hover {
+  background: rgba(40, 44, 52, 0.9);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* Barra inferior */
+.hud-bottom-bar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(16, 18, 22, 0.76);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+}
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #aeb7c4;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Panel lateral Pages */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  max-width: 88vw;
+  height: 100%;
+  z-index: 20;
+  background: rgba(10, 12, 16, 0.92);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease;
+}
+
+.drawer.hidden {
+  transform: translateX(100%);
+  pointer-events: none;
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.drawer-header h2 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.drawer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+
+.drawer-group {
+  margin-bottom: 18px;
+}
+
+.drawer-group-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+}
+
+.drawer-group-title:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.drawer-group-title span {
+  font-size: 11px;
+  font-weight: 400;
+  color: #8a94a6;
+}
+
+.drawer-notes {
+  list-style: none;
+  margin-top: 6px;
+  padding-left: 8px;
+}
+
+.drawer-notes li {
+  padding: 6px 10px;
+  font-size: 12px;
+  color: #b7c0ce;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.drawer-notes li:hover {
+  background: rgba(255, 210, 140, 0.12);
+  color: #ffffff;
+}
+
+/* Tarjeta de nota */
+.note-card {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  width: 310px;
+  max-width: calc(100vw - 48px);
+  z-index: 15;
+  padding: 16px 18px;
+  background: rgba(14, 16, 20, 0.9);
+  border: 1px solid rgba(255, 210, 150, 0.25);
+  border-radius: 14px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.note-card.hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+.note-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.note-badge {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 195, 115, 0.14);
+  color: #ffd08f;
+}
+
+.note-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #ffffff;
+}
+
+.note-card p {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #b8c1ce;
+}
