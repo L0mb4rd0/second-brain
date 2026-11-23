@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Second Brain 3D</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="canvas-container"></div>
+  <div id="labels-layer"></div>
+
+  <!-- Encabezado superior izquierdo -->
+  <header class="hud-top-left">
+    <h1>Second Brain</h1>
+    <p>Tu Nombre <span class="dot">·</span> <span id="fps-counter">60 fps</span></p>
+  </header>
+
+  <!-- Botón central Home -->
+  <button id="btn-home" class="pill-btn hud-top-center">Home</button>
+
+  <!-- Botón superior derecho Pages -->
+  <button id="btn-pages" class="pill-btn hud-top-right">Pages</button>
+
+  <!-- Navegación vertical derecha -->
+  <div class="hud-right-nav">
+    <button id="btn-prev-cat" class="circle-btn" title="Categoría anterior" aria-label="Anterior">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+    <button id="btn-next-cat" class="circle-btn" title="Siguiente categoría" aria-label="Siguiente">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Barra de controles inferior -->
+  <div class="hud-bottom-bar">
+    <button id="btn-zoom-out" class="icon-btn" title="Alejar">−</button>
+    <button id="btn-zoom-in" class="icon-btn" title="Acercar">+</button>
+    <button id="btn-reset" class="icon-btn" title="Reiniciar vista">↺</button>
+    <button id="btn-pause" class="icon-btn" title="Pausar / Reanudar rotación">❚❚</button>
+    <button id="btn-fullscreen" class="icon-btn" title="Pantalla completa">⛶</button>
+  </div>
+
+  <!-- Panel lateral de páginas y notas -->
+  <aside id="pages-drawer" class="drawer hidden">
+    <div class="drawer-header">
+      <h2>Índice de Ideas</h2>
+      <button id="btn-close-drawer" class="icon-btn" aria-label="Cerrar">✕</button>
+    </div>
+    <div id="drawer-content" class="drawer-content"></div>
+  </aside>
+
+  <!-- Tarjeta flotante al seleccionar un nodo -->
+  <div id="note-modal" class="note-card hidden">
+    <div class="note-card-header">
+      <span id="note-category" class="note-badge">Categoría</span>
+      <button id="btn-close-note" class="icon-btn" aria-label="Cerrar">✕</button>
+    </div>
+    <h3 id="note-title">Título de la idea</h3>
+    <p id="note-body">Contenido de la nota.</p>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
